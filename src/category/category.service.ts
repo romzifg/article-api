@@ -1,4 +1,4 @@
-import { PrismaService } from 'src/prisma.service';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { Category } from './category.model';
 import { Inject } from '@nestjs/common';
 
