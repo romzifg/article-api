@@ -18,34 +18,31 @@ export class CategoryController {
 
   @UseGuards(AuthGuard)
   @Get()
-  async getAllCategory(): Promise<Category[]> {
+  async getAllCategory() {
     return this.categoryService.getAllCategory();
   }
 
   @UseGuards(AuthGuard)
   @Get(':id')
-  async getCategoryById(@Param('id') id: number): Promise<Category | null> {
+  async getCategoryById(@Param('id') id: number) {
     return this.categoryService.getCategoryById(id);
   }
 
   @UseGuards(AuthGuard)
   @Post()
-  async createCategory(@Body() postData: Category): Promise<Category> {
+  async createCategory(@Body() postData: Category) {
     return this.categoryService.createCategory(postData);
   }
 
   @UseGuards(AuthGuard)
   @Put(':id')
-  async updateCategory(
-    @Param('id') id: number,
-    @Body() postData: Category,
-  ): Promise<Category | null> {
+  async updateCategory(@Param('id') id: number, @Body() postData: Category) {
     return this.categoryService.updateCategory(id, postData);
   }
 
   @UseGuards(AuthGuard)
   @Delete(':id')
-  async deleteCategory(@Param('id') id: number): Promise<Category> {
+  async deleteCategory(@Param('id') id: number) {
     return this.categoryService.deleteCategory(id);
   }
 }
