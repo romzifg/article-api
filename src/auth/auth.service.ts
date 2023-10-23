@@ -20,9 +20,16 @@ export class AuthService {
       throw new HttpException('User already registered', HttpStatus.FOUND);
     }
 
+    if (data.password !== data.confirmPassword) {
+      throw new HttpException('Password is not match', HttpStatus.BAD_REQUEST);
+    }
+
     data.password = await hash(data.password, 10);
+    // Delete confirm password dto before save database
+    delete data.confirmPassword;
     const createUser = await this.prisma.user.create({ data: data });
 
+    // Delete password when pass payload to return
     delete createUser.password;
 
     if (createUser) {
