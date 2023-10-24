@@ -9,79 +9,99 @@ export class CategoryService {
   ) {}
 
   async getAllCategory() {
-    const data = await this.prisma.category.findMany();
+    try {
+      const data = await this.prisma.category.findMany();
 
-    return {
-      statusCode: HttpStatus.OK,
-      message: 'Success',
-      data: data,
-    };
+      return {
+        statusCode: HttpStatus.OK,
+        message: 'Success',
+        data: data,
+      };
+    } catch (error) {
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+    }
   }
 
   async getCategoryById(id: number) {
-    const data = await this.prisma.category.findFirst({
-      where: { id: Number(id) },
-    });
+    try {
+      const data = await this.prisma.category.findFirst({
+        where: { id: Number(id) },
+      });
 
-    if (!data) {
-      throw new HttpException('Data not found', HttpStatus.NOT_FOUND);
+      if (!data) {
+        throw new HttpException('Data not found', HttpStatus.NOT_FOUND);
+      }
+
+      return {
+        statusCode: HttpStatus.OK,
+        message: 'Success',
+        data: data,
+      };
+    } catch (error) {
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
     }
-
-    return {
-      statusCode: HttpStatus.OK,
-      message: 'Success',
-      data: data,
-    };
   }
 
   async createCategory(payload: Category) {
-    const data = await this.prisma.category.create({ data: payload });
+    try {
+      const data = await this.prisma.category.create({ data: payload });
 
-    return {
-      statusCode: HttpStatus.OK,
-      message: 'Success',
-      data: data,
-    };
+      return {
+        statusCode: HttpStatus.OK,
+        message: 'Success',
+        data: data,
+      };
+    } catch (error) {
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+    }
   }
 
   async updateCategory(id: number, payload: Category) {
-    const findData = await this.prisma.category.findFirst({
-      where: { id: Number(id) },
-    });
+    try {
+      const findData = await this.prisma.category.findFirst({
+        where: { id: Number(id) },
+      });
 
-    if (!findData) {
-      throw new HttpException('Data not found', HttpStatus.NOT_FOUND);
+      if (!findData) {
+        throw new HttpException('Data not found', HttpStatus.NOT_FOUND);
+      }
+
+      const data = await this.prisma.category.update({
+        where: { id: Number(id) },
+        data: { name: payload.name },
+      });
+
+      return {
+        statusCode: HttpStatus.OK,
+        message: 'Success',
+        data: data,
+      };
+    } catch (error) {
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
     }
-
-    const data = await this.prisma.category.update({
-      where: { id: Number(id) },
-      data: { name: payload.name },
-    });
-
-    return {
-      statusCode: HttpStatus.OK,
-      message: 'Success',
-      data: data,
-    };
   }
 
   async deleteCategory(id: number) {
-    const findData = await this.prisma.category.findFirst({
-      where: { id: Number(id) },
-    });
+    try {
+      const findData = await this.prisma.category.findFirst({
+        where: { id: Number(id) },
+      });
 
-    if (!findData) {
-      throw new HttpException('Data not found', HttpStatus.NOT_FOUND);
+      if (!findData) {
+        throw new HttpException('Data not found', HttpStatus.NOT_FOUND);
+      }
+
+      await this.prisma.category.delete({
+        where: { id: Number(id) },
+      });
+
+      return {
+        statusCode: HttpStatus.OK,
+        message: 'Success',
+        data: id,
+      };
+    } catch (error) {
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
     }
-
-    await this.prisma.category.delete({
-      where: { id: Number(id) },
-    });
-
-    return {
-      statusCode: HttpStatus.OK,
-      message: 'Success',
-      data: id,
-    };
   }
 }
