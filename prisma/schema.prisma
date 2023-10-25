@@ -39,7 +39,8 @@ model Article {
   id              Int @id @default(autoincrement())
   title           String
   description     String
-  categories      Category[]
+  categories      Category @relation(fields: [categoryId], references: [id])
+  categoryId      Int
   images          ArticleImage[]
   author          User @relation(fields: [authorId], references: [id])
   authorId        Int
@@ -52,7 +53,8 @@ model Article {
 model ArticleImage {
   id              Int @id @default(autoincrement())
   image_url       String
-  article         Article[]
+  article         Article @relation(fields:[articleId], references: [id])
+  articleId       Int
   createdAt       DateTime @default(now())
   createdBy       Int?
   updatedAt       DateTime @updatedAt
