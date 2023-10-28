@@ -9,8 +9,8 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ArticleService } from './article.service';
-import { AuthGuard } from '@nestjs/passport';
 import { CreateArticleDto, EditArticleDto } from './dto/article.dto';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('api/v1/article')
 export class ArticleController {
