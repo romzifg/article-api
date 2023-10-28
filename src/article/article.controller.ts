@@ -11,6 +11,7 @@ import {
 import { ArticleService } from './article.service';
 import { CreateArticleDto, EditArticleDto } from './dto/article.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { GetUser } from 'src/auth/getUser.decorator';
 
 @Controller('api/v1/article')
 export class ArticleController {
@@ -18,20 +19,23 @@ export class ArticleController {
 
   @UseGuards(AuthGuard)
   @Get()
-  async getAllArticle() {
-    return this.articleService.getAllArticle();
+  async getAllArticle(@GetUser('id') userId: number) {
+    return this.articleService.getAllArticle(userId);
   }
 
   @UseGuards(AuthGuard)
   @Get(':id')
-  async getArticle(@Param('id') id: number) {
-    return this.articleService.getArticle(id);
+  async getArticle(@Param('id') id: number, @GetUser('id') userId: number) {
+    return this.articleService.getArticle(id, userId);
   }
 
   @UseGuards(AuthGuard)
   @Post()
-  async createArticle(@Body() payload: CreateArticleDto) {
-    return this.articleService.createArticle(payload);
+  async createArticle(
+    @Body() payload: CreateArticleDto,
+    @GetUser('id') userId: number,
+  ) {
+    return this.articleService.createArticle(payload, userId);
   }
 
   @UseGuards(AuthGuard)
@@ -39,8 +43,9 @@ export class ArticleController {
   async updateArticle(
     @Param('id') id: number,
     @Body() payload: EditArticleDto,
+    @GetUser('id') userId: number,
   ) {
-    return this.articleService.updateArticle(id, payload);
+    return this.articleService.updateArticle(id, payload, userId);
   }
 
   @UseGuards(AuthGuard)

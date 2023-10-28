@@ -5,9 +5,11 @@ import { CreateArticleDto, EditArticleDto } from './dto/article.dto';
 export class ArticleService {
   constructor(@Inject(PrismaService) private prisma: PrismaService) {}
 
-  async getAllArticle() {
+  async getAllArticle(userId: number) {
     try {
-      const data = await this.prisma.article.findMany();
+      const data = await this.prisma.article.findMany({
+        where: { authorId: Number(userId) },
+      });
 
       return {
         statusCode: HttpStatus.OK,
@@ -19,10 +21,10 @@ export class ArticleService {
     }
   }
 
-  async getArticle(id: number) {
+  async getArticle(id: number, userId: number) {
     try {
       const data = await this.prisma.article.findFirst({
-        where: { id: Number(id) },
+        where: { id: Number(id), authorId: Number(userId) },
       });
       if (!data) {
         throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
@@ -38,14 +40,14 @@ export class ArticleService {
     }
   }
 
-  async createArticle(payload: CreateArticleDto) {
+  async createArticle(payload: CreateArticleDto, userId: number) {
     try {
       const createData = await this.prisma.article.create({
         data: {
           title: payload.title,
           description: payload.description,
           categoryId: payload.categoryId,
-          authorId: payload.authorId,
+          authorId: Number(userId),
         },
       });
 
@@ -72,7 +74,7 @@ export class ArticleService {
     }
   }
 
-  async updateArticle(id: number, payload: EditArticleDto) {
+  async updateArticle(id: number, payload: EditArticleDto, userId: number) {
     try {
       const check = await this.prisma.article.findFirst({
         where: { id: Number(id) },
@@ -83,12 +85,12 @@ export class ArticleService {
       }
 
       const updateData = await this.prisma.article.update({
-        where: { id: Number(id) },
+        where: { id: Number(id), authorId: Number(userId) },
         data: {
           title: payload.title,
           description: payload.description,
           categoryId: payload.categoryId,
-          authorId: payload.authorId,
+          authorId: Number(userId),
         },
       });
 
