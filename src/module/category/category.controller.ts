@@ -10,8 +10,8 @@ import {
 } from '@nestjs/common';
 import { Category } from './category.model';
 import { CategoryService } from './category.service';
-import { AuthGuard } from 'src/auth/guard/auth.guard';
-import { ApiKeyGuard } from 'src/auth/guard/apikey.guard';
+import { AuthGuard } from 'src/module/auth/guard/auth.guard';
+import { ApiKeyGuard } from 'src/module/auth/guard/apikey.guard';
 
 @Controller('api/v1/category')
 export class CategoryController {

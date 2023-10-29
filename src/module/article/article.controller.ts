@@ -10,26 +10,27 @@ import {
 } from '@nestjs/common';
 import { ArticleService } from './article.service';
 import { CreateArticleDto, EditArticleDto } from './dto/article.dto';
-import { AuthGuard } from 'src/auth/guard/auth.guard';
-import { GetUser } from 'src/auth/getUser.decorator';
+import { AuthGuard } from 'src/module/auth/guard/auth.guard';
+import { GetUser } from 'src/module/auth/getUser.decorator';
+import { ApiKeyGuard } from '../auth/guard/apikey.guard';
 
 @Controller('api/v1/article')
 export class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
 
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, ApiKeyGuard)
   @Get()
   async getAllArticle(@GetUser('id') userId: number) {
     return this.articleService.getAllArticle(userId);
   }
 
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, ApiKeyGuard)
   @Get(':id')
   async getArticle(@Param('id') id: number, @GetUser('id') userId: number) {
     return this.articleService.getArticle(id, userId);
   }
 
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, ApiKeyGuard)
   @Post()
   async createArticle(
     @Body() payload: CreateArticleDto,
@@ -38,7 +39,7 @@ export class ArticleController {
     return this.articleService.createArticle(payload, userId);
   }
 
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, ApiKeyGuard)
   @Put(':id')
   async updateArticle(
     @Param('id') id: number,
@@ -48,7 +49,7 @@ export class ArticleController {
     return this.articleService.updateArticle(id, payload, userId);
   }
 
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, ApiKeyGuard)
   @Delete(':id')
   async deleteArticle(@Param('id') id: number) {
     return this.articleService.deleteArticle(id);

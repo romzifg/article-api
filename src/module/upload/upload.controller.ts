@@ -3,16 +3,20 @@ import {
   Controller,
   Post,
   UploadedFile,
+  UseGuards,
 } from '@nestjs/common';
 import { UploadService } from './upload.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
+import { ApiKeyGuard } from 'src/module/auth/guard/apikey.guard';
+import { AuthGuard } from 'src/module/auth/guard/auth.guard';
 
 @Controller('api/v1/upload')
 export class UploadController {
   constructor(private uploadService: UploadService) {}
 
   @Post()
+  @UseGuards(AuthGuard, ApiKeyGuard)
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({

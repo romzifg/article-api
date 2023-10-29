@@ -1,11 +1,12 @@
-import { AuthModule } from './auth/auth.module';
 import { Module } from '@nestjs/common';
-import { CategoryModule } from './category/category.module';
-import { UserModule } from './user/user.module';
-import { UploadModule } from './upload/upload.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
-import { ArticleModule } from './article/article.module';
+// Module
+import { AuthModule } from './module/auth/auth.module';
+import { UserModule } from './module/user/user.module';
+import { CategoryModule } from './module/category/category.module';
+import { UploadModule } from './module/upload/upload.module';
+import { ArticleModule } from './module/article/article.module';
 
 @Module({
   imports: [
