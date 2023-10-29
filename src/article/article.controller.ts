@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { ArticleService } from './article.service';
 import { CreateArticleDto, EditArticleDto } from './dto/article.dto';
-import { AuthGuard } from 'src/auth/auth.guard';
+import { AuthGuard } from 'src/auth/guard/auth.guard';
 import { GetUser } from 'src/auth/getUser.decorator';
 
 @Controller('api/v1/article')

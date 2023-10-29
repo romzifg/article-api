@@ -1,7 +1,7 @@
 import { ExecutionContext, UnauthorizedException } from '@nestjs/common';
 import { AuthGuard as AuthGuardPassport } from '@nestjs/passport';
 
-export class AuthGuard extends AuthGuardPassport(['jwt', 'api-key']) {
+export class AuthGuard extends AuthGuardPassport('jwt') {
   canActivate(context: ExecutionContext) {
     return super.canActivate(context);
   }
