@@ -12,9 +12,6 @@ export class CreateArticleDto {
   @IsNotEmpty()
   categoryId: number;
 
-  @IsNotEmpty()
-  authorId: number;
-
   images: string[];
 }
 
@@ -26,8 +23,6 @@ export class EditArticleDto {
   description: string;
 
   categoryId: number;
-
-  authorId: number;
 
   images: string[];
 }

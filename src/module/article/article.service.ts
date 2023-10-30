@@ -9,6 +9,11 @@ export class ArticleService {
     try {
       const data = await this.prisma.article.findMany({
         where: { authorId: Number(userId) },
+        include: {
+          author: { select: { firstName: true, lastName: true } },
+          categories: { select: { name: true } },
+          images: { select: { image_url: true } },
+        },
       });
 
       return {
@@ -25,7 +30,13 @@ export class ArticleService {
     try {
       const data = await this.prisma.article.findFirst({
         where: { id: Number(id), authorId: Number(userId) },
+        include: {
+          author: { select: { firstName: true, lastName: true } },
+          categories: { select: { name: true } },
+          images: { select: { image_url: true } },
+        },
       });
+
       if (!data) {
         throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
       }
@@ -36,7 +47,11 @@ export class ArticleService {
         data: data,
       };
     } catch (error) {
-      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+      if (error['status'] === 404) {
+        throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+      } else {
+        throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+      }
     }
   }
 
@@ -48,6 +63,11 @@ export class ArticleService {
           description: payload.description,
           categoryId: payload.categoryId,
           authorId: Number(userId),
+        },
+        include: {
+          author: { select: { firstName: true, lastName: true } },
+          categories: { select: { name: true } },
+          images: { select: { image_url: true } },
         },
       });
 
@@ -92,9 +112,14 @@ export class ArticleService {
           categoryId: payload.categoryId,
           authorId: Number(userId),
         },
+        include: {
+          author: { select: { firstName: true, lastName: true } },
+          categories: { select: { name: true } },
+          images: { select: { image_url: true } },
+        },
       });
 
-      if (payload.images.length > 0) {
+      if (payload.images !== undefined && payload.images.length > 0) {
         await this.prisma.articleImage.deleteMany({
           where: { articleId: Number(id) },
         });
@@ -117,7 +142,11 @@ export class ArticleService {
         data: updateData,
       };
     } catch (error) {
-      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+      if (error['status'] === 404) {
+        throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+      } else {
+        throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+      }
     }
   }
 
@@ -145,7 +174,11 @@ export class ArticleService {
         data: id,
       };
     } catch (error) {
-      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+      if (error['status'] === 404) {
+        throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+      } else {
+        throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+      }
     }
   }
 }
