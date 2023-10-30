@@ -29,3 +29,6 @@ $ yarn run start:dev
 # production mode
 $ yarn run start:prod
 ```
+
+## Download Postman Api Test
+[Link Postman](https://mega.nz/file/0i8lSLqR#EjjEq4s9_-AprUEjjHByeAlIBe5YK04WMITeyaOZ8q4)
