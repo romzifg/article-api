@@ -36,7 +36,11 @@ export class UserService {
         data: data,
       };
     } catch (error) {
-      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+      if (error['status'] === 404) {
+        throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+      } else {
+        throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+      }
     }
   }
 
@@ -85,7 +89,11 @@ export class UserService {
         data: newData,
       };
     } catch (error) {
-      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+      if (error['status'] === 404) {
+        throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+      } else {
+        throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+      }
     }
   }
 
@@ -111,7 +119,11 @@ export class UserService {
         data: id,
       };
     } catch (error) {
-      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+      if (error['status'] === 404) {
+        throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+      } else {
+        throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+      }
     }
   }
 
@@ -133,7 +145,11 @@ export class UserService {
         data: id,
       };
     } catch (error) {
-      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+      if (error['status'] === 404) {
+        throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+      } else {
+        throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+      }
     }
   }
 }

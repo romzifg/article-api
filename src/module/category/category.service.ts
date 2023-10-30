@@ -38,7 +38,11 @@ export class CategoryService {
         data: data,
       };
     } catch (error) {
-      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+      if (error['status'] === 404) {
+        throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+      } else {
+        throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+      }
     }
   }
 
@@ -77,7 +81,11 @@ export class CategoryService {
         data: data,
       };
     } catch (error) {
-      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+      if (error['status'] === 404) {
+        throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+      } else {
+        throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+      }
     }
   }
 
@@ -101,7 +109,11 @@ export class CategoryService {
         data: id,
       };
     } catch (error) {
-      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+      if (error['status'] === 404) {
+        throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+      } else {
+        throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+      }
     }
   }
 }
